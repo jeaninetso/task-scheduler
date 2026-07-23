@@ -6,25 +6,25 @@ export interface Graph {
 }
 
 /**
- * Builds an adjacency list keyed by "runs before" edges: for a dependency
- * edge dep -> task (dep must finish before task starts), so adjacency.get(dep)
- * contains task.id and inDegree[task] counts how many deps it's waiting on.
+ * Build the adjacency list with key edges: for a dependency edge dep ->
+ * task (dep must finish before task starts), so adjacency.get(dep) contains
+ * task.id and inDegree[task] counts how many deps it's waiting on.
  */
 export function buildGraph(tasks: Task[]): Graph {
-  const adjacency = new Map<string, string[]>()
-  const inDegree = new Map<string, number>()
+  const adjacency = new Map<string, string[]>();
+  const inDegree = new Map<string, number>();
 
   for (const task of tasks) {
-    if (!adjacency.has(task.id)) adjacency.set(task.id, [])
-    if (!inDegree.has(task.id)) inDegree.set(task.id, 0)
+    if (!adjacency.has(task.id)) adjacency.set(task.id, []); // add task if it DNE
+    if (!inDegree.has(task.id)) inDegree.set(task.id, 0); // set deps for task
   }
 
   for (const task of tasks) {
     for (const depId of task.dependencies) {
-      if (!adjacency.has(depId)) adjacency.set(depId, [])
-      if (!inDegree.has(depId)) inDegree.set(depId, 0)
-      adjacency.get(depId)!.push(task.id)
-      inDegree.set(task.id, (inDegree.get(task.id) ?? 0) + 1)
+      if (!adjacency.has(depId)) adjacency.set(depId, []);
+      if (!inDegree.has(depId)) inDegree.set(depId, 0);
+      adjacency.get(depId)!.push(task.id);
+      inDegree.set(task.id, (inDegree.get(task.id) ?? 0) + 1);
     }
   }
 
@@ -37,19 +37,19 @@ export function buildGraph(tasks: Task[]): Graph {
  * when the queue drains is part of, or blocked by, a cycle.
  */
 export function topologicalSort(tasks: Task[]): TopoSortResult {
-  const { adjacency, inDegree } = buildGraph(tasks)
-  const remaining = new Map(inDegree)
+  const { adjacency, inDegree } = buildGraph(tasks);
+  const remaining = new Map(inDegree);
 
-  const queue: string[] = []
+  const queue: string[] = []; // tasks with deg = 0
   for (const [id, degree] of remaining) {
-    if (degree === 0) queue.push(id)
+    if (degree === 0) queue.push(id);
   }
 
-  const order: string[] = []
-  let head = 0
+  const order: string[] = [];
+  let head = 0;
   while (head < queue.length) {
-    const id = queue[head++]
-    order.push(id)
+    const id = queue[head++];
+    order.push(id);
     for (const neighbor of adjacency.get(id) ?? []) {
       const next = (remaining.get(neighbor) ?? 0) - 1
       remaining.set(neighbor, next)
