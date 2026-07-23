@@ -2,12 +2,9 @@ export interface Task {
   id: string;
   name: string;
   durationMinutes: number;
-  /** ids of tasks that must complete before this one can start */
-  dependencies: string[];
-  /** 1 (highest) to 5 (lowest) */
-  priority: number;
-  /** ISO date string, optional */
-  deadline?: string;
+  dependencies: string[]; // ids of tasks that must complete before this one can start
+  priority: number; // 1 (highest) to 5 (lowest)
+  deadline?: string; // ISO date string, optional
 }
 
 export type TieBreakMode = 'fifo' | 'priority' | 'deadline';
@@ -25,8 +22,7 @@ export interface DaySchedule {
 
 export interface CycleError {
   hasCycle: true;
-  /** ids of tasks that are part of (or blocked by) a cycle */
-  cycleNodeIds: string[];
+  cycleNodeIds: string[]; // ids of tasks that are part of (or blocked by) a cycle
 }
 
 export interface TopoSortResult {
