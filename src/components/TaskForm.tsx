@@ -1,31 +1,31 @@
-import { useState, type FormEvent } from 'react'
-import type { Task } from '../types'
+import { useState, type FormEvent } from 'react';
+import type { Task } from '../types';
 
 interface TaskFormProps {
-  existingTasks: Task[]
-  onAdd: (input: Omit<Task, 'id'>) => void
+  existingTasks: Task[];
+  onAdd: (input: Omit<Task, 'id'>) => void;
 }
 
 export function TaskForm({ existingTasks, onAdd }: TaskFormProps) {
-  const [name, setName] = useState('')
-  const [durationMinutes, setDurationMinutes] = useState(30)
-  const [priority, setPriority] = useState(3)
-  const [dependencies, setDependencies] = useState<string[]>([])
+  const [name, setName] = useState('');
+  const [durationMinutes, setDurationMinutes] = useState(30);
+  const [priority, setPriority] = useState(3);
+  const [dependencies, setDependencies] = useState<string[]>([]);
 
   function handleSubmit(e: FormEvent) {
-    e.preventDefault()
-    if (!name.trim()) return
-    onAdd({ name: name.trim(), durationMinutes, priority, dependencies })
-    setName('')
-    setDurationMinutes(30)
-    setPriority(3)
-    setDependencies([])
+    e.preventDefault();
+    if (!name.trim()) return;
+    onAdd({ name: name.trim(), durationMinutes, priority, dependencies });
+    setName('');
+    setDurationMinutes(30);
+    setPriority(3);
+    setDependencies([]);
   }
 
   function toggleDependency(id: string) {
     setDependencies((prev) =>
       prev.includes(id) ? prev.filter((depId) => depId !== id) : [...prev, id],
-    )
+    );
   }
 
   return (
@@ -86,5 +86,5 @@ export function TaskForm({ existingTasks, onAdd }: TaskFormProps) {
         Add task
       </button>
     </form>
-  )
+  );
 }

@@ -1,16 +1,16 @@
-import type { Task } from '../types'
+import type { Task } from '../types';
 
 interface TaskListProps {
-  tasks: Task[]
-  onRemove: (id: string) => void
+  tasks: Task[];
+  onRemove: (id: string) => void;
 }
 
 export function TaskList({ tasks, onRemove }: TaskListProps) {
   if (tasks.length === 0) {
-    return <p className="text-sm text-slate-500">No tasks yet.</p>
+    return <p className="text-sm text-slate-500">No tasks yet.</p>;
   }
 
-  const nameById = new Map(tasks.map((task) => [task.id, task.name]))
+  const nameById = new Map(tasks.map((task) => [task.id, task.name]));
 
   return (
     <ul className="flex flex-col gap-2">
@@ -39,5 +39,5 @@ export function TaskList({ tasks, onRemove }: TaskListProps) {
         </li>
       ))}
     </ul>
-  )
+  );
 }

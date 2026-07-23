@@ -1,16 +1,16 @@
-import { useMemo } from 'react'
-import { topologicalSort } from './algorithms/graph'
-import { TaskForm } from './components/TaskForm'
-import { TaskList } from './components/TaskList'
-import { useTasks } from './hooks/useTasks'
+import { useMemo } from 'react';
+import { topologicalSort } from './algorithms/graph';
+import { TaskForm } from './components/TaskForm';
+import { TaskList } from './components/TaskList';
+import { useTasks } from './hooks/useTasks';
 
 function App() {
-  const { tasks, addTask, removeTask } = useTasks()
-  const sortResult = useMemo(() => topologicalSort(tasks), [tasks])
+  const { tasks, addTask, removeTask } = useTasks();
+  const sortResult = useMemo(() => topologicalSort(tasks), [tasks]);
   const nameById = useMemo(
     () => new Map(tasks.map((task) => [task.id, task.name])),
     [tasks],
-  )
+  );
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 p-8 flex flex-col gap-6 max-w-2xl mx-auto">
@@ -37,7 +37,7 @@ function App() {
         )}
       </section>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

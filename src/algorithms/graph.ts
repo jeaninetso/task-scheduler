@@ -1,8 +1,8 @@
-import type { Task, TopoSortResult, CycleError } from '../types'
+import type { Task, TopoSortResult, CycleError } from '../types';
 
 export interface Graph {
-  adjacency: Map<string, string[]>
-  inDegree: Map<string, number>
+  adjacency: Map<string, string[]>;
+  inDegree: Map<string, number>;
 }
 
 /**
@@ -28,7 +28,7 @@ export function buildGraph(tasks: Task[]): Graph {
     }
   }
 
-  return { adjacency, inDegree }
+  return { adjacency, inDegree };
 }
 
 /**
@@ -46,27 +46,27 @@ export function topologicalSort(tasks: Task[]): TopoSortResult {
   }
 
   const order: string[] = [];
-  let head = 0;
-  while (head < queue.length) {
-    const id = queue[head++];
+  let pointer = 0;
+  while (pointer < queue.length) {
+    const id = queue[pointer++];
     order.push(id);
     for (const neighbor of adjacency.get(id) ?? []) {
-      const next = (remaining.get(neighbor) ?? 0) - 1
-      remaining.set(neighbor, next)
-      if (next === 0) queue.push(neighbor)
+      const next = (remaining.get(neighbor) ?? 0) - 1;
+      remaining.set(neighbor, next);
+      if (next === 0) queue.push(neighbor);
     }
   }
 
-  const allIds = [...remaining.keys()]
+  const allIds = [...remaining.keys()];
   if (order.length < allIds.length) {
-    const resolved = new Set(order)
-    const cycleNodeIds = allIds.filter((id) => !resolved.has(id))
-    return { order, cycle: { hasCycle: true, cycleNodeIds } }
+    const resolved = new Set(order);
+    const cycleNodeIds = allIds.filter((id) => !resolved.has(id));
+    return { order, cycle: { hasCycle: true, cycleNodeIds } };
   }
 
-  return { order }
+  return { order };
 }
 
 export function detectCycle(tasks: Task[]): CycleError | null {
-  return topologicalSort(tasks).cycle ?? null
+  return topologicalSort(tasks).cycle ?? null;
 }

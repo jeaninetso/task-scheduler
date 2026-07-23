@@ -1,35 +1,35 @@
 export interface Task {
-  id: string
-  name: string
-  durationMinutes: number
+  id: string;
+  name: string;
+  durationMinutes: number;
   /** ids of tasks that must complete before this one can start */
-  dependencies: string[]
+  dependencies: string[];
   /** 1 (highest) to 5 (lowest) */
-  priority: number
+  priority: number;
   /** ISO date string, optional */
-  deadline?: string
+  deadline?: string;
 }
 
-export type TieBreakMode = 'fifo' | 'priority' | 'deadline'
+export type TieBreakMode = 'fifo' | 'priority' | 'deadline';
 
 export interface ScheduledItem {
-  taskId: string
-  startMinuteOffset: number
+  taskId: string;
+  startMinuteOffset: number;
 }
 
 export interface DaySchedule {
-  dayIndex: number
-  items: ScheduledItem[]
-  totalMinutesUsed: number
+  dayIndex: number;
+  items: ScheduledItem[];
+  totalMinutesUsed: number;
 }
 
 export interface CycleError {
-  hasCycle: true
+  hasCycle: true;
   /** ids of tasks that are part of (or blocked by) a cycle */
-  cycleNodeIds: string[]
+  cycleNodeIds: string[];
 }
 
 export interface TopoSortResult {
-  order: string[]
-  cycle?: CycleError
+  order: string[];
+  cycle?: CycleError;
 }
